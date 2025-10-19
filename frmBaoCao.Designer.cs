@@ -17,6 +17,13 @@
 
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabDoanhThu = new System.Windows.Forms.TabPage();
             this.pnlDoanhThu = new System.Windows.Forms.Panel();
@@ -41,6 +48,10 @@
             this.btnXemTonKho = new System.Windows.Forms.Button();
             this.cboLoaiHang = new System.Windows.Forms.ComboBox();
             this.lblLoaiHang = new System.Windows.Forms.Label();
+            this.tabDashboard = new System.Windows.Forms.TabPage();
+            this.pnlDashboard = new System.Windows.Forms.Panel();
+            this.chartTopSanPham = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartDoanhThuTheoThang = new System.Windows.Forms.DataVisualization.Charting.Chart();
             
             this.tabControl.SuspendLayout();
             this.tabDoanhThu.SuspendLayout();
@@ -52,11 +63,16 @@
             this.pnlTonKho.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTonKho)).BeginInit();
             this.pnlFilterTonKho.SuspendLayout();
+            this.tabDashboard.SuspendLayout();
+            this.pnlDashboard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartTopSanPham)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartDoanhThuTheoThang)).BeginInit();
             this.SuspendLayout();
 
             // 
             // tabControl
             // 
+            this.tabControl.Controls.Add(this.tabDashboard);
             this.tabControl.Controls.Add(this.tabDoanhThu);
             this.tabControl.Controls.Add(this.tabTonKho);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -66,6 +82,7 @@
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(1180, 680);
             this.tabControl.TabIndex = 0;
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
 
             // 
             // tabDoanhThu
@@ -412,6 +429,80 @@
             this.dgvTonKho.TabIndex = 0;
 
             // 
+            // tabDashboard
+            // 
+            this.tabDashboard.BackColor = System.Drawing.Color.FromArgb(248, 249, 250);
+            this.tabDashboard.Controls.Add(this.pnlDashboard);
+            this.tabDashboard.Location = new System.Drawing.Point(4, 26);
+            this.tabDashboard.Name = "tabDashboard";
+            this.tabDashboard.Padding = new System.Windows.Forms.Padding(10);
+            this.tabDashboard.Size = new System.Drawing.Size(1172, 650);
+            this.tabDashboard.TabIndex = 2;
+            this.tabDashboard.Text = "📈 Dashboard Trực quan";
+
+            // 
+            // pnlDashboard
+            // 
+            this.pnlDashboard.BackColor = System.Drawing.Color.White;
+            this.pnlDashboard.Controls.Add(this.chartTopSanPham);
+            this.pnlDashboard.Controls.Add(this.chartDoanhThuTheoThang);
+            this.pnlDashboard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlDashboard.Location = new System.Drawing.Point(10, 10);
+            this.pnlDashboard.Name = "pnlDashboard";
+            this.pnlDashboard.Padding = new System.Windows.Forms.Padding(10);
+            this.pnlDashboard.Size = new System.Drawing.Size(1152, 630);
+            this.pnlDashboard.TabIndex = 0;
+
+            // 
+            // chartDoanhThuTheoThang
+            // 
+            chartArea1.Name = "ChartArea1";
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.LightGray;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.LightGray;
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 9F);
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.chartDoanhThuTheoThang.ChartAreas.Add(chartArea1);
+            this.chartDoanhThuTheoThang.Dock = System.Windows.Forms.DockStyle.Left;
+            legend1.Name = "Legend1";
+            legend1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.chartDoanhThuTheoThang.Legends.Add(legend1);
+            this.chartDoanhThuTheoThang.Location = new System.Drawing.Point(10, 10);
+            this.chartDoanhThuTheoThang.Name = "chartDoanhThuTheoThang";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+            series1.Legend = "Legend1";
+            series1.Name = "Doanh thu";
+            series1.Color = System.Drawing.Color.FromArgb(40, 167, 69);
+            this.chartDoanhThuTheoThang.Series.Add(series1);
+            this.chartDoanhThuTheoThang.Size = new System.Drawing.Size(570, 610);
+            this.chartDoanhThuTheoThang.TabIndex = 0;
+            this.chartDoanhThuTheoThang.Text = "chartDoanhThuTheoThang";
+
+            // 
+            // chartTopSanPham
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.chartTopSanPham.ChartAreas.Add(chartArea2);
+            this.chartTopSanPham.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend2.Name = "Legend1";
+            legend2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            this.chartTopSanPham.Legends.Add(legend2);
+            this.chartTopSanPham.Location = new System.Drawing.Point(580, 10);
+            this.chartTopSanPham.Name = "chartTopSanPham";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series2.Legend = "Legend1";
+            series2.Name = "Top sản phẩm";
+            series2.IsValueShownAsLabel = true;
+            series2.Label = "#PERCENT{P1}";
+            series2.LegendText = "#VALX";
+            this.chartTopSanPham.Series.Add(series2);
+            this.chartTopSanPham.Size = new System.Drawing.Size(562, 610);
+            this.chartTopSanPham.TabIndex = 1;
+            this.chartTopSanPham.Text = "chartTopSanPham";
+
+            // 
             // frmBaoCao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -437,6 +528,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvTonKho)).EndInit();
             this.pnlFilterTonKho.ResumeLayout(false);
             this.pnlFilterTonKho.PerformLayout();
+            this.tabDashboard.ResumeLayout(false);
+            this.pnlDashboard.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chartTopSanPham)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartDoanhThuTheoThang)).EndInit();
             this.ResumeLayout(false);
         }
 
@@ -466,5 +561,9 @@
         private System.Windows.Forms.Button btnXemTonKho;
         private System.Windows.Forms.ComboBox cboLoaiHang;
         private System.Windows.Forms.Label lblLoaiHang;
+        private System.Windows.Forms.TabPage tabDashboard;
+        private System.Windows.Forms.Panel pnlDashboard;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartDoanhThuTheoThang;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartTopSanPham;
     }
 }

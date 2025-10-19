@@ -304,8 +304,17 @@ namespace TapHoa
                 }
 
                 transaction.Commit();
-                MessageBox.Show($"Thanh toán thành công!\nMã hóa đơn: {maHoaDon}\nTổng tiền: {tongTien:N0} đ",
-                    "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                // Hỏi người dùng có muốn in hóa đơn không
+                DialogResult resultIn = MessageBox.Show(
+                    $"Thanh toán thành công!\nMã hóa đơn: {maHoaDon}\nTổng tiền: {tongTien:N0} đ\n\nBạn có muốn in hóa đơn không?",
+                    "Thành công", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                if (resultIn == DialogResult.Yes)
+                {
+                    frmXemTruocIn formIn = new frmXemTruocIn(maHoaDon, "HoaDon");
+                    formIn.ShowDialog();
+                }
 
                 // Reset form
                 dtGioHang.Clear();
@@ -343,6 +352,12 @@ namespace TapHoa
                 MessageBox.Show("Đã hủy đơn hàng!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void btnLichSu_Click(object sender, EventArgs e)
+        {
+            frmLichSuHoaDon form = new frmLichSuHoaDon();
+            form.ShowDialog();
         }
     }
 }
