@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using TapHoa.DTO;
 
@@ -12,6 +13,15 @@ namespace TapHoa
         {
             InitializeComponent();
             currentUser = nv;
+            
+            // Thiết lập custom renderer cho MenuStrip để fix màu dropdown
+            menuStrip1.Renderer = new CustomMenuRenderer();
+            
+            // Đảm bảo màu chữ menu chính là trắng
+            foreach (ToolStripMenuItem item in menuStrip1.Items)
+            {
+                item.ForeColor = Color.White;
+            }
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -46,6 +56,13 @@ namespace TapHoa
                     menuNhapKho.Visible = true;
                     break;
             }
+        }
+
+        private void menuXemLichLamViec_Click(object sender, EventArgs e)
+        {
+            frmXemLichLamViec form = new frmXemLichLamViec(currentUser.MaNhanVien);
+            form.MdiParent = this;
+            form.Show();
         }
 
         private void menuDoiMatKhau_Click(object sender, EventArgs e)
@@ -124,5 +141,50 @@ namespace TapHoa
             form.MdiParent = this;
             form.Show();
         }
+    }
+}
+
+
+// Custom Renderer để fix màu chữ dropdown menu
+public class CustomMenuRenderer : ToolStripProfessionalRenderer
+{
+    public CustomMenuRenderer() : base(new CustomColorTable()) { }
+
+    protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
+    {
+        // Dropdown items (menu con) - màu đen
+        if (e.Item.OwnerItem != null)
+        {
+            e.TextColor = Color.FromArgb(33, 37, 41);
+        }
+        // Top level items (menu chính) - màu trắng
+        else
+        {
+            e.TextColor = Color.White;
+        }
+        base.OnRenderItemText(e);
+    }
+}
+
+public class CustomColorTable : ProfessionalColorTable
+{
+    public override Color MenuItemSelected
+    {
+        get { return Color.FromArgb(212, 237, 218); } // Light green khi hover
+    }
+
+    public override Color MenuItemSelectedGradientBegin
+    {
+        get { return Color.FromArgb(212, 237, 218); }
+    }
+
+    public override Color MenuItemSelectedGradientEnd
+    {
+        get { return Color.FromArgb(212, 237, 218); }
+    }
+
+    public override Color MenuItemBorder
+    {
+        get { return Color.FromArgb(40, 167, 69); }
     }
 }

@@ -139,6 +139,12 @@
     <Compile Include="frmXemTruocIn.Designer.cs">
       <DependentUpon>frmXemTruocIn.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmXemLichLamViec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmXemLichLamViec.Designer.cs">
+      <DependentUpon>frmXemLichLamViec.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmQuanLyLichLamViec.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,6 +203,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmXemTruocIn.resx">
       <DependentUpon>frmXemTruocIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmXemLichLamViec.resx">
+      <DependentUpon>frmXemLichLamViec.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmQuanLyLichLamViec.resx">
       <DependentUpon>frmQuanLyLichLamViec.cs</DependentUpon>

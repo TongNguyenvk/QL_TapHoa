@@ -25,6 +25,10 @@ namespace TapHoa
             txtNhanVien.Text = tenNhanVien;
             dtpNgayBan.Value = DateTime.Now;
             
+            // Chỉ cho phép chọn ngày hiện tại
+            dtpNgayBan.MinDate = DateTime.Today;
+            dtpNgayBan.MaxDate = DateTime.Today;
+            
             LoadSanPham();
             InitGioHang();
         }

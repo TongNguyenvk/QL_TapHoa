@@ -2,6 +2,8 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using System.Globalization;
+using System.Threading;
 using TapHoa.DAL;
 
 namespace TapHoa
@@ -19,9 +21,18 @@ namespace TapHoa
 
         private void frmQuanLyLichLamViec_Load(object sender, EventArgs e)
         {
+            // Thiết lập ngôn ngữ tiếng Việt cho MonthCalendar
+            CultureInfo viVN = new CultureInfo("vi-VN");
+            Thread.CurrentThread.CurrentCulture = viVN;
+            Thread.CurrentThread.CurrentUICulture = viVN;
+            
             LoadNhanVien();
             LoadLichLamViec();
             EnableInput(false);
+            
+            // Chỉ cho phép chọn ngày từ ngày mai trở đi (không cho chọn ngày hiện tại và quá khứ)
+            dtpNgayLam.MinDate = DateTime.Today.AddDays(1);
+            dtpNgayLam.Value = DateTime.Today.AddDays(1);
             
             dtpGioBatDau.Value = DateTime.Today.AddHours(8);
             dtpGioKetThuc.Value = DateTime.Today.AddHours(17);
@@ -82,7 +93,9 @@ namespace TapHoa
                 string maNhanVienFilter = GetSelectedNhanVienFilter();
 
                 string query = @"SELECT l.MaLich, nv.TenNhanVien, l.NgayLamViec, 
-                                l.GioBatDau, l.GioKetThuc, l.MoTa, l.MaNhanVien
+                                CONVERT(VARCHAR(5), l.GioBatDau, 108) AS GioBatDau,
+                                CONVERT(VARCHAR(5), l.GioKetThuc, 108) AS GioKetThuc,
+                                l.MoTa, l.MaNhanVien
                                 FROM LICHLAMVIEC l
                                 INNER JOIN NHANVIEN nv ON l.MaNhanVien = nv.MaNhanVien
                                 WHERE l.NgayLamViec BETWEEN @StartDate AND @EndDate";
@@ -111,10 +124,8 @@ namespace TapHoa
                     dgvLichLamViec.Columns["NgayLamViec"].HeaderText = "Ngày làm";
                     dgvLichLamViec.Columns["NgayLamViec"].DefaultCellStyle.Format = "dd/MM/yyyy";
                     dgvLichLamViec.Columns["GioBatDau"].HeaderText = "Giờ bắt đầu";
-                    dgvLichLamViec.Columns["GioBatDau"].DefaultCellStyle.Format = "HH:mm";
                     dgvLichLamViec.Columns["GioBatDau"].Width = 100;
                     dgvLichLamViec.Columns["GioKetThuc"].HeaderText = "Giờ kết thúc";
-                    dgvLichLamViec.Columns["GioKetThuc"].DefaultCellStyle.Format = "HH:mm";
                     dgvLichLamViec.Columns["GioKetThuc"].Width = 100;
                     dgvLichLamViec.Columns["MoTa"].HeaderText = "Ghi chú";
                 }
@@ -166,14 +177,23 @@ namespace TapHoa
                     }
                 }
 
-                dtpNgayLam.Value = Convert.ToDateTime(row.Cells["NgayLamViec"].Value);
+                // Tạm thời bỏ MinDate để có thể hiển thị ngày cũ
+                DateTime ngayLamViec = Convert.ToDateTime(row.Cells["NgayLamViec"].Value);
+                dtpNgayLam.MinDate = DateTimePicker.MinimumDateTime;
+                dtpNgayLam.Value = ngayLamViec;
+                // Set lại MinDate sau khi load xong
+                dtpNgayLam.MinDate = DateTime.Today.AddDays(1);
+                
+                // Parse giờ từ string "HH:mm"
+                string gioBatDauStr = row.Cells["GioBatDau"].Value?.ToString() ?? "08:00";
+                string gioKetThucStr = row.Cells["GioKetThuc"].Value?.ToString() ?? "17:00";
                 
                 DateTime today = DateTime.Today;
-                TimeSpan gioBatDau = (TimeSpan)row.Cells["GioBatDau"].Value;
-                TimeSpan gioKetThuc = (TimeSpan)row.Cells["GioKetThuc"].Value;
+                string[] gioBatDauParts = gioBatDauStr.Split(':');
+                string[] gioKetThucParts = gioKetThucStr.Split(':');
                 
-                dtpGioBatDau.Value = today.Add(gioBatDau);
-                dtpGioKetThuc.Value = today.Add(gioKetThuc);
+                dtpGioBatDau.Value = today.AddHours(int.Parse(gioBatDauParts[0])).AddMinutes(int.Parse(gioBatDauParts[1]));
+                dtpGioKetThuc.Value = today.AddHours(int.Parse(gioKetThucParts[0])).AddMinutes(int.Parse(gioKetThucParts[1]));
                 
                 txtGhiChu.Text = row.Cells["MoTa"].Value?.ToString() ?? "";
             }
@@ -329,7 +349,8 @@ namespace TapHoa
             {
                 cboNhanVienTrongCa.SelectedIndex = 0;
             }
-            dtpNgayLam.Value = DateTime.Today;
+            // Set ngày mặc định là ngày mai (vì MinDate = ngày mai)
+            dtpNgayLam.Value = DateTime.Today.AddDays(1);
             dtpGioBatDau.Value = DateTime.Today.AddHours(8);
             dtpGioKetThuc.Value = DateTime.Today.AddHours(17);
             txtGhiChu.Clear();

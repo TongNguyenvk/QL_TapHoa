@@ -19,6 +19,7 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuHeThong = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuXemLichLamViec = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDoiMatKhau = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDangXuat = new System.Windows.Forms.ToolStripMenuItem();
             this.menuThoat = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +56,7 @@
             // menuHeThong
             // 
             this.menuHeThong.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuXemLichLamViec,
             this.menuDoiMatKhau,
             this.menuDangXuat,
             this.menuThoat});
@@ -63,24 +65,31 @@
             this.menuHeThong.Size = new System.Drawing.Size(85, 23);
             this.menuHeThong.Text = "Hệ thống";
             // 
+            // menuXemLichLamViec
+            // 
+            this.menuXemLichLamViec.Name = "menuXemLichLamViec";
+            this.menuXemLichLamViec.Size = new System.Drawing.Size(220, 24);
+            this.menuXemLichLamViec.Text = "📅 Xem Lịch làm việc";
+            this.menuXemLichLamViec.Click += new System.EventHandler(this.menuXemLichLamViec_Click);
+            // 
             // menuDoiMatKhau
             // 
             this.menuDoiMatKhau.Name = "menuDoiMatKhau";
-            this.menuDoiMatKhau.Size = new System.Drawing.Size(180, 24);
+            this.menuDoiMatKhau.Size = new System.Drawing.Size(220, 24);
             this.menuDoiMatKhau.Text = "🔒 Đổi mật khẩu";
             this.menuDoiMatKhau.Click += new System.EventHandler(this.menuDoiMatKhau_Click);
             // 
             // menuDangXuat
             // 
             this.menuDangXuat.Name = "menuDangXuat";
-            this.menuDangXuat.Size = new System.Drawing.Size(180, 24);
+            this.menuDangXuat.Size = new System.Drawing.Size(220, 24);
             this.menuDangXuat.Text = "🚪 Đăng xuất";
             this.menuDangXuat.Click += new System.EventHandler(this.menuDangXuat_Click);
             // 
             // menuThoat
             // 
             this.menuThoat.Name = "menuThoat";
-            this.menuThoat.Size = new System.Drawing.Size(180, 24);
+            this.menuThoat.Size = new System.Drawing.Size(220, 24);
             this.menuThoat.Text = "❌ Thoát";
             this.menuThoat.Click += new System.EventHandler(this.menuThoat_Click);
             // 
@@ -195,6 +204,7 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuHeThong;
+        private System.Windows.Forms.ToolStripMenuItem menuXemLichLamViec;
         private System.Windows.Forms.ToolStripMenuItem menuDoiMatKhau;
         private System.Windows.Forms.ToolStripMenuItem menuDangXuat;
         private System.Windows.Forms.ToolStripMenuItem menuThoat;

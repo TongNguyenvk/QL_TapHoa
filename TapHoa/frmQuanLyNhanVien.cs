@@ -22,6 +22,71 @@ namespace TapHoa
             LoadNhanVien();
             LoadVaiTro();
             EnableInput(false);
+            
+            // Thêm context menu cho DataGridView
+            AddContextMenu();
+        }
+
+        private void AddContextMenu()
+        {
+            ContextMenuStrip contextMenu = new ContextMenuStrip();
+            ToolStripMenuItem resetPasswordItem = new ToolStripMenuItem("🔑 Đặt lại mật khẩu");
+            resetPasswordItem.Click += ResetPassword_Click;
+            contextMenu.Items.Add(resetPasswordItem);
+            dgvNhanVien.ContextMenuStrip = contextMenu;
+        }
+
+        private void ResetPassword_Click(object sender, EventArgs e)
+        {
+            if (dgvNhanVien.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên cần đặt lại mật khẩu!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridViewRow row = dgvNhanVien.SelectedRows[0];
+            int maNhanVien = Convert.ToInt32(row.Cells["MaNhanVien"].Value);
+            string tenNhanVien = row.Cells["TenNhanVien"].Value.ToString();
+
+            DialogResult result = MessageBox.Show(
+                $"Bạn có chắc muốn đặt lại mật khẩu cho nhân viên:\n\n{tenNhanVien}\n\nMật khẩu mới sẽ là: 123",
+                "Xác nhận đặt lại mật khẩu",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    string query = "UPDATE NHANVIEN SET MatKhau = @MatKhau WHERE MaNhanVien = @MaNhanVien";
+                    SqlParameter[] parameters = {
+                        new SqlParameter("@MatKhau", "123"),
+                        new SqlParameter("@MaNhanVien", maNhanVien)
+                    };
+
+                    int rowsAffected = DataAccess.ExecuteNonQuery(query, parameters);
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show(
+                            $"Đặt lại mật khẩu thành công!\n\nNhân viên: {tenNhanVien}\nMật khẩu mới: 123",
+                            "Thành công",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Đặt lại mật khẩu thất bại!", "Lỗi",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi đặt lại mật khẩu: " + ex.Message, "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void LoadNhanVien()
